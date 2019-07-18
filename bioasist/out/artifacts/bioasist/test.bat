@@ -1,0 +1,1 @@
+java -jar Graficar.jar data.txt
