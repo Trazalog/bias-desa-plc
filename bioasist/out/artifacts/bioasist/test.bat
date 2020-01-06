@@ -1,1 +1,1 @@
-java -jar Graficar.jar data.txt
+java -jar Graficar.jar data2.txt
