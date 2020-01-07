@@ -1,0 +1,5 @@
+Hora:	Presión [mmHg]:	Temperatura [°C]:	Kilogramos de gas:
+9:37	50	0	0
+9:38	150	0	0
+9:39	200	0	0
+9:39	200	0	0
