@@ -37,23 +37,29 @@ import java.util.*;
 
 public class Main extends Application {
 
-    String dir =  "C:\\DatosPLCS7-1200\\";
+    String dir =  null;
+    String file =  null;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
+        this.dir = this.getArgumentos(0);
+        this.file = this.getArgumentos(1);
 
-        String file = this.getArgumentos(0);
-
-        if (file == null){
-            System.out.println("Sin Argumentos");
+        if (file == null || dir == null){
+            System.out.println("Argumentos no válidos: Se esperaba DIRECTORIO FILE");
             System.console().readLine();
             System.exit(0);
+        }else{
+            this.dir = dir.replace("\\", "\\\\") + "\\\\";
         }
 
+
+        System.out.println("Leyendo datos de " + dir +file);
         String fr= this.readFile(dir + file);
 
-        ArrayList<String> data =this.filtrarDatos(fr);
+        ArrayList<String> data = this.filtrarDatos(fr);
+
 
         NumberAxis numberAxis = new NumberAxis();
         DateAxis dateAxis = new DateAxis();
@@ -83,9 +89,13 @@ public class Main extends Application {
         int dia = 1;
         for (String s:data) {
             System.out.println(s);
+            try {
+                hora =  Integer.parseInt(getHora(s).split(":")[0].trim());
+                min =   Integer.parseInt(getHora(s).split(":")[1]);
+            }catch (Exception e){
+                continue;
+            }
 
-            hora =  Integer.parseInt(getHora(s).split(":")[0]);
-            min =   Integer.parseInt(getHora(s).split(":")[1]);
 
             if(hora<ant) {dia++; System.out.println("salto");}
 
@@ -118,7 +128,6 @@ public class Main extends Application {
 
         this.captura(scene.getRoot());
 
-        //primaryStage.show();
         System.exit(0);
     }
 
@@ -130,7 +139,7 @@ public class Main extends Application {
 
     public void captura(Parent obj){
 
-        String  nombre = dir +"\\"+this.getArgumentos(0).split("txt")[0]+"png";
+        String  nombre = dir + file.split(".txt")[0]+".png";
 
         System.out.println(nombre);
 
@@ -150,12 +159,11 @@ public class Main extends Application {
     public String getArgumentos(int index){
         Parameters params = getParameters();
         return params.getRaw().get(index);
-
     }
 
     public String readFile(String url){
 
-        String content = "";
+        String content = null;
 
         try
         {
@@ -163,7 +171,10 @@ public class Main extends Application {
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            System.out.println("No se encontro el archivo en el directorio especificado");
+            System.out.println(dir + file);
+            System.console().readLine();
+            System.exit(0);
         }
 
         return content;

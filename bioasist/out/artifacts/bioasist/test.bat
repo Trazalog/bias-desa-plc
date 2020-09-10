@@ -1,1 +1,0 @@
-java -jar Graficar.jar data2.txt

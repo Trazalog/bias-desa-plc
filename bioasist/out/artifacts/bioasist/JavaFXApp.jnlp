@@ -8,8 +8,8 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="JavaFXApp.jar" size="186451" download="eager" />
-    <jar href="graficar.jar" size="186225" download="eager" />
+    <jar href="Graficar.jar" size="186451" download="eager" />
+    <jar href="JavaFXApp.jar" size="294819" download="eager" />
   </resources>
   <jfx:javafx-desc  width="600" height="400" main-class="sample.Main"  name="bioasist" />
   <update check="background"/>

@@ -1,1 +1,1 @@
-java -jar graficar.jar %1
+java -jar graficar.jar C:\DatosPLCS7-1200 %1
