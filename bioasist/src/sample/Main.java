@@ -51,12 +51,16 @@ public class Main extends Application {
             System.console().readLine();
             System.exit(0);
         }else{
+            System.out.println(this.file);
+            this.file = this.file.replace("\\","=");
+            String aux[] = this.file.split("=");
+            this.file = aux[aux.length-1];
             this.dir = dir.replace("\\", "\\\\") + "\\\\";
         }
 
 
         System.out.println("Leyendo datos de " + dir +file);
-        String fr= this.readFile(dir + file);
+        String fr= this.readFile(dir+file);
 
         ArrayList<String> data = this.filtrarDatos(fr);
 
@@ -183,24 +187,21 @@ public class Main extends Application {
     public ArrayList<String> filtrarDatos(String content){
 
         String S[] =  content.split("\n");
+        System.out.println("Cantidad Lineas: "+S.length);
 
         ArrayList<String> list = new ArrayList<>();
 
         Boolean ban = false;
         for (String s:S) {
-            if(s.contains("Presi")){
-                ban=true;
+            if(s.contains("Hora"))continue;
+            try {
+                String aux[] = s.split("\t");
+                String data = aux[0] + "-" + aux[1] + "-" + aux[2];
+                list.add(data.replaceAll("E-",""));
+            } catch (Exception e) {
                 continue;
             }
-
-            if(ban && !s.contains("-")){
-                String aux[] = s.split("\t");
-                list.add(aux[0] + "-" +aux[1] + "-" + aux[2]);
-            }else{
-                ban = false;
-            }
         }
-
         System.out.println("Cantidad de Lineas Leídas: " + list.size());
         return list;
     }
