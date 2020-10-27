@@ -91,18 +91,19 @@ public class Main extends Application {
         int min;
         int ant = -1;
         int dia = 1;
+        System.out.println("Adjuntando datos al grafico");
         for (String s:data) {
-            System.out.println(s);
+
             try {
-                hora =  Integer.parseInt(getHora(s).split(":")[0].trim());
-                min =   Integer.parseInt(getHora(s).split(":")[1]);
+                String aux = getHora(s).split(":")[0].trim(); if(aux.length()>2) aux = aux.substring(2);
+                hora =  Integer.parseInt(aux);
+                aux = getHora(s).split(":")[1].trim(); if(aux.length()>2) aux = aux.substring(2);
+                min =   Integer.parseInt(aux);
             }catch (Exception e){
                 continue;
             }
-
-
-            if(hora<ant) {dia++; System.out.println("salto");}
-
+            if(hora > 23 || min > 59) { System.out.println("Registro Ignorado | Hora Inválida | " + s); continue;}
+            if(hora<ant) { dia++; System.out.println("salto dia");}
             XYChart.Data a = new XYChart.Data<Date, Number>(new GregorianCalendar(2020,5,dia,hora,min).getTime(), Float.parseFloat(s.split("-")[1].replace(',','.')));
             XYChart.Data b = new XYChart.Data<Date, Number>(new GregorianCalendar(2020, 5, dia ,hora, min).getTime(), Float.parseFloat(s.split("-")[2].replace(',','.')));
             series1Data.add(a);
@@ -193,12 +194,14 @@ public class Main extends Application {
 
         Boolean ban = false;
         for (String s:S) {
-            if(s.contains("Hora"))continue;
+            if(s.contains("Hora")) continue;
             try {
                 String aux[] = s.split("\t");
-                String data = aux[0] + "-" + aux[1] + "-" + aux[2];
-                list.add(data.replaceAll("E-",""));
+                String num = aux[1]; if(num.contains("E-")) num = "0";
+                String data = aux[0] + "-" + num + "-" + aux[2];
+                list.add(data);
             } catch (Exception e) {
+
                 continue;
             }
         }
